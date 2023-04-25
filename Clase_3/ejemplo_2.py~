@@ -1,0 +1,4 @@
+import os
+
+for i in range(2):
+  os.system("python ejemplo_1.py")

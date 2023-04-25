@@ -1,0 +1,35 @@
+"""
+Se pueden ver los procesos con ps lf.
+Para ver los procesos padre se pueden ver con ps ps
+"""
+
+
+import os
+import sys
+import time
+
+print('SOY EL PADRE (PID: %d)' % os.getpid())
+var = 'Variable del padre'
+
+print('--------------------------------')
+try:
+  ret = os.fork()
+  var = 'Variable del hijo'
+except OSError:
+  print('ERROR AL CREAR EL HIJO')
+  
+
+while True:
+  if ret > 0:
+    print('SOY EL PADRE (PID: %d )' % os.getpid())
+    print('PADRE: ', var, id(var))
+    
+  elif ret == 0:
+    print('SOY EL HIJO (PID: %d -- PPID: %d)' % (os.getpid(), os.getppid()))
+    print('HIJO: ', var, id(var))
+  
+  time.sleep(1)
+  print()
+  
+
+

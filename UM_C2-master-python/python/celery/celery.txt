@@ -1,0 +1,30 @@
+
+Arquitectura:
+	celery como worker (el que ejecuta el pool de procesos con las tareas)
+	redis como broker (cola de tareas y cola de resultados)
+	app principal (ipython por ej, django, un código python, ...)
+		res = tarea.delay(..)
+		res.ready()
+		res.get()
+
+
+Instalar Celery:
+	pip3 install celery
+		celery -A modulo_tareas worker --loglevel=INFO -c 4
+
+	pip3 install redis
+		servicio que atiende un puerto tcp
+		docker run -d -p 6379:6379 redis
+			ss
+			ps
+	
+	correr la app (ipython)
+		usar delay() para meter tareas en el redis
+
+	
+Instalacion docker:
+https://docs.docker.com/engine/install/ubuntu/
+	agregar su usuario al grupo docker:
+	sudo gpasswd -a $USER docker
+	su - $USER
+	id <- deberian ver el grupo docker

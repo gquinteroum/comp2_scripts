@@ -1,0 +1,195 @@
+
+Sockets
+
+
+Cliente ---------------> Servidor
+          Protocolo
+
+
+
+tipos
+	unix -> archivos / filesystem
+	inet -> stack de protocolos
+		Datagrama -> dgram -> udp
+		Flujo -> stream    -> tcp
+
+
+Modelo OSI/ISO:
+
+-----------
+Aplicacion   7
+-----------
+presentacion 6
+-----------
+sesion       5
+-----------
+transporte   4
+-----------
+red          3
+-----------
+enlace       2
+-----------
+fisica       1
+-----------
+
+
+
+Modelo TCP/IP:
+
+-----------
+Aplicacion 7  proto de app 
+-----------
+Transporte 4  puertos (tcp/udp)
+-----------
+Red        3  direcciones IP (ip)
+-----------
+Enlace     2  direcciones MAC (ethernet)
+-----------
+
+Protocolo: lenguaje con el que interactúan cliente y servidor
+	estandar: estan definidos en RFC (Request for comment)
+		RFC 821 (smtp version original)
+		RFC 2821 (smtp version nueva)
+
+
+
+app: protocolos http, dns, ssh, ftp, smtp, pop, imap, ...
+tr: confiabilidad de los datos
+	tcp - transmission control protocol
+	udp - user datagram protocol
+red: direccionamiento y enrutamiento
+enlace/link: comunicacion fisica
+
+Overhead
+
+                                  dato_app
+                              udp|dato_app
+                           ip|udp|dato_app
+                       eth|ip|udp|dato_app
+
+
+TCP handshake (en general)
+cliente                         Servidor
+   |                               |
+   |  -> syn                       |
+   |               <- ack + syn    |
+   |  -> ack                       |
+   |                               |
+   |     ... trafico ...           |
+   |     ... trafico ...           |
+   |     ... trafico ...           |
+   |     ... trafico ...           |
+   |                               |
+   |                               |
+   |  -> fin                       |
+   |              <- ack + fin     |
+   |  -> ack                       |
+   |                               |
+   |                               |
+
+
+TCP handshake (server.py - client.py)
+cliente                         Servidor
+   |                               |
+   |  -> syn                       |
+   |               <- ack + syn    |
+   |  -> ack                       |
+   |                               |
+   |     ...< Thank you...<        |
+   |                               |
+   |              <- ack + fin     |
+   |  -> ack                       |
+   |  -> fin + ack                 |
+   |              <- ack           |
+   |  -> ack                       |
+   |                               |
+
+
+
+Socket de red: "5-upla"
+	direccion ip destino
+	direccion ip origen
+	puerto destino
+	puerto origen
+	protocolo tcp
+
+
+
+Cabecera IPv4
+ 0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version|  IHL  |Type of Service|          Total Length         |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Identification        |Flags|      Fragment Offset    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Time to Live |    Protocol   |         Header Checksum       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                       Source Address                          |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Destination Address                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Options                    |    Padding    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Cabecera IPv6
+
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version| Traffic Class |           Flow Label                  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Payload Length        |  Next Header  |   Hop Limit   |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                         Source Address                        +
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                      Destination Address                      +
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Cabecera TCP
+
+                                  
+    0                   1                   2                   3   
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          Source Port          |       Destination Port        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                        Sequence Number                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Acknowledgment Number                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Data |           |U|A|P|R|S|F|                               |
+   | Offset| Reserved  |R|C|S|S|Y|I|            Window             |
+   |       |           |G|K|H|T|N|N|                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |           Checksum            |         Urgent Pointer        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Options                    |    Padding    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                             data                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Cabecera UDP
+
+                  0      7 8     15 16    23 24    31
+                 +--------+--------+--------+--------+
+                 |          source address           |
+                 +--------+--------+--------+--------+
+                 |        destination address        |
+                 +--------+--------+--------+--------+
+                 |  zero  |protocol|   UDP length    |
+                 +--------+--------+--------+--------+
+

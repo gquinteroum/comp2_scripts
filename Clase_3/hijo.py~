@@ -1,3 +1,0 @@
-import os
-
-print('SOY EL HIJO INDEPENDIENTE (PID: %d)' % os.getpid())

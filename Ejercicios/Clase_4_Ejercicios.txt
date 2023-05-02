@@ -1,0 +1,8 @@
+PIPES
+
+1- Escribir un programa en Python que comunique dos procesos. El proceso padre deberá leer un archivo de texto y enviar cada línea del archivo al proceso hijo a través de un pipe. El proceso hijo deberá recibir las líneas del archivo y, por cada una de ellas, contar la cantidad de palabras que contiene y mostrar ese número.
+
+2- Verificar si es posible que dos procesos hijos (o nieto) lean el PIPE del padre.
+
+3- Verificar si el PIPE sigue existiendo cuendo el padre muere (termina el proceso), cuando el hijo muere [o cuendo mueren ambos]
+$ ls -l /proc/[pid]/fd/

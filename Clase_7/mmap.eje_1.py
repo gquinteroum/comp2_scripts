@@ -17,7 +17,7 @@ area.write(b'nuevo')
 
 area.tell()
 area.seek(0)
-
+fd
 """
 con el comando od se puede ver el archivo en bajo nivel. -c para que muestre los caracteres
 """

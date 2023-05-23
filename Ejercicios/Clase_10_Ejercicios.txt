@@ -1,0 +1,6 @@
+Escribir un programa que genere dos hilos utilizando threading.
+Uno de los hilos debera leer desde stdin el texto ingresado por el usuario y deberá escribirlo en una cola de mensajes (queue).
+
+El segundo hilo deberá leer desde la queue el contenido y encriptará dicho texto utilizando el algoritmo ROT13 y lo almacenará en una cola de mensajes (queue).
+
+El primer hilo deberá leer dicho mensaje de la cola y lo mostrará por pantalla.

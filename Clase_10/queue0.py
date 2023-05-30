@@ -1,8 +1,7 @@
-
 import threading, queue
 
-q = queue.LifoQueue()
-#q = queue.Queue()   # FIFO
+# q = queue.LifoQueue()
+q = queue.Queue()   # FIFO
 
 def worker():
     while True:
@@ -23,4 +22,5 @@ print('All task requests sent\n', end='')
 
 # block until all tasks are done
 q.join()
+# th.join()
 print('All work completed')

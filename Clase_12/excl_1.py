@@ -16,7 +16,7 @@ def sub(loop_amount):
         cont = cont - 1
 
 # Creamos dos hilos que incrementan y decrementan el contador
-loop_amount = 100
+loop_amount = 10000
 t1 = threading.Thread(target=add, args=(loop_amount,))
 t2 = threading.Thread(target=sub, args=(loop_amount,))
 t1.start()

@@ -1,0 +1,9 @@
+# Utiliza la imagen oficial de Python como base
+FROM python:3.8-slim
+
+# Copia tu archivo Python a la imagen
+COPY app.py /app.py
+
+# Ejecuta la aplicación cuando se inicie el contenedor
+CMD ["python", "/app.py"]
+
